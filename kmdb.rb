@@ -95,10 +95,143 @@ Role.destroy_all
 # Do not use hard-coded foreign key IDs.
 # TODO!
 
-#Insert studio
+#Insert a studio
 new_studio = Studio.new
 new_studio["name"] = "Warner Bros."
 new_studio.save
+
+# Studio.all.each do |studio|
+#     puts "#{studio.id} | #{studio.name}"
+#   end
+#insert movies
+warner = Studio.find_by({ "name" => "Warner Bros." })
+new_movies = [
+    {title: "Batman Begins", year_released: 2005, rated: "PG-13", studio_id: warner.id},
+    {title: "The Dark Knight", year_released: 2008, rated: "PG-13", studio_id: warner.id},
+    {title: "The Dark Knight Rises", year_released: 2012, rated: "PG-13", studio_id: warner.id}
+]
+Movie.create(new_movies)
+
+#insert actors and roles for Batman Begins
+new_actors = [
+    {name: "Christian Bale"}, 
+    {name: "Michael Caine"}, 
+    {name: "Liam Neeson"}, 
+    {name: "Katie Holmes"},
+    {name: "Gary Oldman"}
+]
+Actor.create(new_actors)
+
+movie_1 = Movie.find_by({ "title" => "Batman Begins" })
+actor_1 = Actor.find_by({"name" => "Christian Bale"})
+actor_2 = Actor.find_by({"name" => "Michael Caine"})
+actor_3 = Actor.find_by({"name" => "Liam Neeson"})
+actor_4 = Actor.find_by({"name" => "Katie Holmes"})
+actor_5 = Actor.find_by({"name" => "Gary Oldman"})
+
+new_roles = [
+    {movie_id: movie_1.id, actor_id: actor_1.id, character_name: "Bruce Wayne"},
+    {movie_id: movie_1.id, actor_id: actor_2.id, character_name: "Alfred"},
+    {movie_id: movie_1.id, actor_id: actor_3.id, character_name: "Ra's Al Ghul"},
+    {movie_id: movie_1.id, actor_id: actor_4.id, character_name: "Rachel Dawes"},
+    {movie_id: movie_1.id, actor_id: actor_5.id, character_name: "Commissioner Gordon"}
+]
+Role.create(new_roles)
+
+
+#insert actors and roles for The Dark Knight
+new_actors = [
+    {name: "Heath Ledger"},      
+    {name: "Aaron Eckhart"},     
+    {name: "Maggie Gyllenhaal"},  
+]
+Actor.create(new_actors)
+
+movie_2 = Movie.find_by({ "title" => "The Dark Knight" })
+actor_6 = Actor.find_by({"name" => "Heath Ledger"})
+actor_7 = Actor.find_by({"name" => "Aaron Eckhart"})
+actor_8 = Actor.find_by({"name" => "Maggie Gyllenhaal"})
+
+
+new_roles = [
+    {movie_id: movie_2.id, actor_id: actor_1.id, character_name: "Bruce Wayne"},
+    {movie_id: movie_2.id, actor_id: actor_2.id, character_name: "Alfred"},
+    {movie_id: movie_2.id, actor_id: actor_6.id, character_name: "Joker"},
+    {movie_id: movie_2.id, actor_id: actor_7.id, character_name: "Harvey Dent"},
+    {movie_id: movie_2.id, actor_id: actor_8.id, character_name: "Rachel Dawes"}
+]
+Role.create(new_roles)
+
+#insert actors and roles for The Dark Knight Rise
+
+new_actors = [
+    {name: "Tom Hardy"},            
+    {name: "Joseph Gordon-Levitt"},
+    {name: "Anne Hathaway"},        
+]
+Actor.create(new_actors)
+
+movie_3 = Movie.find_by({ "title" => "The Dark Knight Rises" })
+actor_9 = Actor.find_by({"name" => "Heath Ledger"})
+actor_10 = Actor.find_by({"name" => "Aaron Eckhart"})
+actor_11 = Actor.find_by({"name" => "Maggie Gyllenhaal"})
+
+new_roles = [
+    {movie_id: movie_3.id, actor_id: actor_1.id, character_name: "Bruce Wayne"},
+    {movie_id: movie_3.id, actor_id: actor_5.id, character_name: "Commissioner Gordon"},
+    {movie_id: movie_3.id, actor_id: actor_9.id, character_name: "Bane"},
+    {movie_id: movie_3.id, actor_id: actor_10.id, character_name: "John Blake"},
+    {movie_id: movie_3.id, actor_id: actor_11.id, character_name: "Selina Kyle"}
+]
+Role.create(new_roles)
+
+
+# puts "There are #{Studio.all.count} studios"
+# puts "There are #{Movie.all.count} movies"
+# puts "There are #{Actor.all.count} actors"
+# puts "There are #{Role.all.count} roles"
+
+# Actor.all.each do |actor|
+#     puts "#{actor.id} | #{actor.name}"
+#   end
+
+# Prints a header for the movies output
+puts "Movies"
+puts "======"
+puts ""
+
+# Query the movies data and loop through the results to display the movies output.
+# TODO!
+
+for movie in Movie.all
+    movie_title = movie["title"]
+    released_year = movie["year_released"]
+    rating = movie["rated"]
+    studio = Studio.find_by("id" => movie["studio_id"])
+    studio_name = studio["name"]
+
+    puts "#{movie_title} #{released_year} #{rating} #{studio_name}"
+
+  end
+
+# Prints a header for the cast output
+puts ""
+puts "Top Cast"
+puts "========"
+puts ""
+
+# Query the cast data and loop through the results to display the cast output for each movie.
+# TODO!
+
+for role in Role.all
+    movie_title = Movie.find_by("id" => role["movie_id"])["title"]
+    actor_name = Actor.find_by("id" => role["actor_id"])["name"]
+    character_name = role["character_name"]
+  
+    puts "#{movie_title} #{actor_name} #{character_name}"
+  end
+
+
 
 #insert movies
 # warner = Studio.find_by({ "name" => "Warner Bros." })
@@ -123,14 +256,6 @@ new_studio.save
 # new_movie["studio_id"] = warner["id"]
 # new_movie.save
 
-#after repeating data inputs, I decided to optimize the data input codes
-warner = Studio.find_by({ "name" => "Warner Bros." })
-new_movies = [
-    {title: "Batman Begins", year_released: 2005, rated: "PG-13", studio_id: warner.id},
-    {title: "The Dark Knight", year_released: 2008, rated: "PG-13", studio_id: warner.id},
-    {title: "The Dark Knight Rises", year_released: 2012, rated: "PG-13", studio_id: warner.id}
-]
-Movie.create(movies)
 
 #insert actors and roles for Batman Begins
 # new_actor = Actor.new
@@ -153,46 +278,9 @@ Movie.create(movies)
 # new_actor["name"] = "Gary Oldman"
 # new_actor.save
 
-new_actors = [
-    {name: "Christian Bale"},
-    {name: "Michael Caine"},
-    {name: "Liam Neeson"},
-    {name: "Katie Holmes"},
-    {name: "Gary Oldman"}
-]
-Actor.create(actors)
-
 # batman_begins = Movie.find_by({ "title" => "Batman Begins" })
 # new_role = Role.new
 # new_role["movie_id"] = batman_begins["id"]
 # new_role["actor_id"] = Actor.find_by({ "name" => "Christian Bale" })["id"]
 # new_role["character_name"] = "Bruce Wayne"
 # new_role.save
-
-new_roles = [
-    {movie_id: 1, actor_id: 1, character_name: "Bruce Wayne"},
-]
-
-
-
-puts "There are #{Studio.all.count} studios"
-puts "There are #{Movie.all.count} movies"
-puts "There are #{Actor.all.count} actors"
-puts "There are #{Role.all.count} roles"
-
-# Prints a header for the movies output
-puts "Movies"
-puts "======"
-puts ""
-
-# Query the movies data and loop through the results to display the movies output.
-# TODO!
-
-# Prints a header for the cast output
-puts ""
-puts "Top Cast"
-puts "========"
-puts ""
-
-# Query the cast data and loop through the results to display the cast output for each movie.
-# TODO!
