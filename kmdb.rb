@@ -76,13 +76,109 @@
 # Delete existing data, so you'll start fresh each time this script is run.
 # Use `Model.destroy_all` code.
 # TODO!
+Studio.destroy_all
+Movie.destroy_all
+Actor.destroy_all
+Role.destroy_all
+
 
 # Generate models and tables, according to the domain model.
 # TODO!
+# rails generate model Studio
+# rails generate model Movie
+# rails generate model Actor
+# rails generate model Role
+
+# rails db:migrate
 
 # Insert data into the database that reflects the sample data shown above.
 # Do not use hard-coded foreign key IDs.
 # TODO!
+
+#Insert studio
+new_studio = Studio.new
+new_studio["name"] = "Warner Bros."
+new_studio.save
+
+#insert movies
+# warner = Studio.find_by({ "name" => "Warner Bros." })
+# new_movie = Movie.new
+# new_movie["title"] = "Batman Begins"
+# new_movie["year_released"] = 2005
+# new_movie["rated"] = "PG-13."
+# new_movie["studio_id"] = warner["id"]
+# new_movie.save
+
+# new_movie = Movie.new
+# new_movie["title"] = "The Dark Knight"
+# new_movie["year_released"] = 2008
+# new_movie["rated"] = "PG-13."
+# new_movie["studio_id"] = warner["id"]
+# new_movie.save
+
+# new_movie = Movie.new
+# new_movie["title"] = "The Dark Knight Rise"
+# new_movie["year_released"] = 2012
+# new_movie["rated"] = "PG-13."
+# new_movie["studio_id"] = warner["id"]
+# new_movie.save
+
+#after repeating data inputs, I decided to optimize the data input codes
+warner = Studio.find_by({ "name" => "Warner Bros." })
+new_movies = [
+    {title: "Batman Begins", year_released: 2005, rated: "PG-13", studio_id: warner.id},
+    {title: "The Dark Knight", year_released: 2008, rated: "PG-13", studio_id: warner.id},
+    {title: "The Dark Knight Rises", year_released: 2012, rated: "PG-13", studio_id: warner.id}
+]
+Movie.create(movies)
+
+#insert actors and roles for Batman Begins
+# new_actor = Actor.new
+# new_actor["name"] = "Christian Bale"
+# new_actor.save
+
+# new_actor = Actor.new
+# new_actor["name"] = "Michael Caine"
+# new_actor.save
+
+# new_actor = Actor.new
+# new_actor["name"] = "Liam Neelson"
+# new_actor.save
+
+# new_actor = Actor.new
+# new_actor["name"] = "Katie Holmes"
+# new_actor.save
+
+# new_actor = Actor.new
+# new_actor["name"] = "Gary Oldman"
+# new_actor.save
+
+new_actors = [
+    {name: "Christian Bale"},
+    {name: "Michael Caine"},
+    {name: "Liam Neeson"},
+    {name: "Katie Holmes"},
+    {name: "Gary Oldman"}
+]
+Actor.create(actors)
+
+# batman_begins = Movie.find_by({ "title" => "Batman Begins" })
+# new_role = Role.new
+# new_role["movie_id"] = batman_begins["id"]
+# new_role["actor_id"] = Actor.find_by({ "name" => "Christian Bale" })["id"]
+# new_role["character_name"] = "Bruce Wayne"
+# new_role.save
+
+new_roles = [
+    {movie_id: 1, actor_id: 1, character_name: "Bruce Wayne"},
+]
+
+
+
+puts "There are #{Studio.all.count} studios"
+puts "There are #{Movie.all.count} movies"
+puts "There are #{Actor.all.count} actors"
+puts "There are #{Role.all.count} roles"
 
 # Prints a header for the movies output
 puts "Movies"
